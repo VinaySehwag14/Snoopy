@@ -14,6 +14,7 @@ import { useUserContext } from "@/context/AuthContext";
 import { useSignInAccount } from "@/lib/react-query/queriesAndMutation";
 import { SigninValidation } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -32,6 +33,20 @@ const SigninForm = () => {
       password: "",
     },
   });
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      const isLoggedIn = await checkAuthUser();
+      if (isLoggedIn) {
+        navigate("/");
+      } else {
+        return console.log("User not found!");
+      }
+    };
+
+    checkUserStatus();
+  }, []);
 
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SigninValidation>) {
