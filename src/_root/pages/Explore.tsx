@@ -26,7 +26,6 @@ const Explore = () => {
       fetchNextPage();
     }
   }, [inView, searchValue]);
-  console.log("loading");
 
   if (!posts) {
     return (
