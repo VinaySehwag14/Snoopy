@@ -420,7 +420,7 @@ export async function updateUser(user: IUpdateUser) {
   const hasFileToUpdate = user.file.length > 0;
   try {
     let image = {
-      imageUrl: user.imageUrl,
+      ImageUrl: user.ImageUrl,
       imageId: user.imageId,
     };
 
@@ -436,7 +436,7 @@ export async function updateUser(user: IUpdateUser) {
         throw Error;
       }
 
-      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+      image = { ...image, ImageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
     //*  Update user
@@ -447,7 +447,7 @@ export async function updateUser(user: IUpdateUser) {
       {
         name: user.name,
         bio: user.bio,
-        imageUrl: image.imageUrl,
+        ImageUrl: image.ImageUrl,
         imageId: image.imageId,
       }
     );
