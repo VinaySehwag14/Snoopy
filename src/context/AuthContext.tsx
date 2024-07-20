@@ -8,7 +8,7 @@ export const INITIAL_USER = {
   name: "",
   username: "",
   email: "",
-  ImageUrl: "",
+  imageUrl: "",
   bio: "",
 };
 
@@ -22,7 +22,6 @@ const INITIAL_STATE = {
 };
 
 const AuthContext = createContext<IContextType>(INITIAL_STATE);
-
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<IUser>(INITIAL_USER);
   const [isLoading, setIsLoading] = useState(false);
@@ -40,7 +39,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           name: currentAccount.name,
           username: currentAccount.username,
           email: currentAccount.email,
-          ImageUrl: currentAccount.ImageUrl,
+          imageUrl: currentAccount.imageUrl,
           bio: currentAccount.bio,
         });
         setIsAuthenticated(true);
