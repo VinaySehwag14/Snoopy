@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/toaster";
-import { Edit } from "lucide-react";
 import { Route, Routes } from "react-router-dom";
 import AuthLayout from "./_auth/AuthLayout";
 import SigninForm from "./_auth/forms/SigninForm";
@@ -7,6 +6,7 @@ import SignupForm from "./_auth/forms/SignupForm";
 import {
   AllUsers,
   CreatePost,
+  EditPost,
   Explore,
   Home,
   PostDetails,
@@ -34,7 +34,7 @@ function App() {
           <Route path="/saved" element={<Saved />} />
           <Route path="/all-users" element={<AllUsers />} />
           <Route path="/create-post" element={<CreatePost />} />
-          <Route path="/update-post/:id" element={<Edit />} />
+          <Route path="/update-post/:id" element={<EditPost />} />
           <Route path="/posts/:id" element={<PostDetails />} />
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id" element={<UpdateProfile />} />

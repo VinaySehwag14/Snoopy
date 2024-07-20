@@ -86,7 +86,7 @@ export async function signOutAccount() {
   }
 }
 
-//* post
+//*Create post
 export async function createPost(post: INewPost) {
   try {
     // Upload file to appwrite storage
@@ -130,6 +130,24 @@ export async function createPost(post: INewPost) {
   }
 }
 
+//* GET POST BY ID
+export async function getPostById(postId?: string) {
+  if (!postId) throw Error;
+
+  try {
+    const post = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+
+    if (!post) throw Error;
+
+    return post;
+  } catch (error) {
+    console.log(error);
+  }
+}
 //*UPLOAD FILE
 export async function uploadFile(file: File) {
   try {
@@ -185,11 +203,11 @@ export async function updatePost(post: IUpdatePost) {
     };
 
     if (hasFileToUpdate) {
-      // Upload new file to appwrite storage
+      //* Upload new file to appwrite storage
       const uploadedFile = await uploadFile(post.file[0]);
       if (!uploadedFile) throw Error;
 
-      // Get new file url
+      //* Get new file url
       const fileUrl = getFilePreview(uploadedFile.$id);
       if (!fileUrl) {
         await deleteFile(uploadedFile.$id);
@@ -199,10 +217,10 @@ export async function updatePost(post: IUpdatePost) {
       image = { ...image, ImageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
-    // Convert tags into array
+    //* Convert tags into array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
-    //  Update post
+    //*  Update post
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,
@@ -216,23 +234,39 @@ export async function updatePost(post: IUpdatePost) {
       }
     );
 
-    // Failed to update
+    //* Failed to update
     if (!updatedPost) {
-      // Delete new file that has been recently uploaded
+      //* Delete new file that has been recently uploaded
       if (hasFileToUpdate) {
         await deleteFile(image.imageId);
       }
 
-      // If no new file uploaded, just throw error
+      //* If no new file uploaded, just throw error
       throw Error;
     }
 
-    // Safely delete old file after successful update
+    //* Safely delete old file after successful update
     if (hasFileToUpdate) {
       await deleteFile(post.imageId);
     }
 
     return updatedPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+//*  DELETE POST
+export async function deletePost(postId: string, imageId: string) {
+  if (!postId || !imageId) throw Error;
+
+  try {
+    await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      postId
+    );
+    return { status: "ok" };
   } catch (error) {
     console.log(error);
   }
@@ -267,7 +301,7 @@ export async function likePost(postId: string, likesArray: string[]) {
   }
 }
 
-// ============================== SAVE POST
+//*SAVE POST
 export async function savePost(userId: string, postId: string) {
   try {
     const updatedPost = await databases.createDocument(

@@ -27,9 +27,10 @@ import { useToast } from "../ui/use-toast";
 
 type PostFormProps = {
   post?: Models.Document;
+  action: "Create" | "Update";
 };
 
-const PostForm = ({ post }: PostFormProps) => {
+const PostForm = ({ post, action }: PostFormProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useUserContext();
@@ -44,30 +45,28 @@ const PostForm = ({ post }: PostFormProps) => {
     },
   });
 
-  // Query
-  const { mutateAsync: createPost, isLoading: isLoadingCreate } =
+  //* Query
+  const { mutateAsync: createPost, isPending: isLoadingCreate } =
     useCreatePost();
-  const { mutateAsync: updatePost, isLoading: isLoadingUpdate } =
+  const { mutateAsync: updatePost, isPending: isLoadingUpdate } =
     useUpdatePost();
 
-  // Handler
   const onSubmit = async (value: z.infer<typeof PostValidation>) => {
-    // ACTION = UPDATE
-    // if (post && action === "Update") {
-    //   const updatedPost = await updatePost({
-    //     ...value,
-    //     postId: post.$id,
-    //     imageId: post.imageId,
-    //     ImageUrl: post.ImageUrl,
-    //   });
+    if (post && action === "Update") {
+      const updatedPost = await updatePost({
+        ...value,
+        postId: post.$id,
+        imageId: post.imageId,
+        ImageUrl: post.ImageUrl,
+      });
 
-    //   if (!updatedPost) {
-    //     toast({
-    //       title: `${action} post failed. Please try again.`,
-    //     });
-    //   }
-    //   return navigate(`/posts/${post.$id}`);
-    // }
+      if (!updatedPost) {
+        toast({
+          title: `${action} post failed. Please try again.`,
+        });
+      }
+      return navigate(`/posts/${post.$id}`);
+    }
 
     // ACTION = CREATE
     const newPost = await createPost({
@@ -76,7 +75,6 @@ const PostForm = ({ post }: PostFormProps) => {
     });
 
     if (!newPost) {
-      //  {`${action}``}
       toast({
         title: `Please try again.`,
       });
@@ -172,8 +170,8 @@ const PostForm = ({ post }: PostFormProps) => {
             className="shad-button_primary whitespace-nowrap"
             disabled={isLoadingCreate || isLoadingUpdate}
           >
-            Submit
             {(isLoadingCreate || isLoadingUpdate) && <Loader />}
+            {action} Post
           </Button>
         </div>
       </form>
