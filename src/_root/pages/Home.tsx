@@ -10,6 +10,10 @@ const Home = () => {
     isError: isErrorPosts,
   } = useGetRecentPosts();
 
+  if (isErrorPosts) {
+    console.log("Getting issue on Loading posts");
+  }
+
   return (
     <div className="flex flex-1">
       <div className="home-container">
