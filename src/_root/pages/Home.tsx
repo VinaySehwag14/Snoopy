@@ -11,7 +11,7 @@ const Home = () => {
   } = useGetRecentPosts();
 
   if (isErrorPosts) {
-    console.log("Getting issue on Loading posts");
+    console.log("Getting issue on Loading posts , please check appwrite");
   }
 
   return (
