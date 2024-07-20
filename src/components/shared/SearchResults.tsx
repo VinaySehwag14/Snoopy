@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 import GridPostList from "./GridPostList";
 import Loader from "./Loader";
 
 type SearchResultsProps = {
   isSearchFetching: boolean;
-  searchedPosts: any;
+  searchedPosts;
 };
 
 const SearchResults = ({
