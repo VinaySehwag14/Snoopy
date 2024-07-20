@@ -338,7 +338,7 @@ export async function deleteSavedPost(savedRecordId: string) {
 }
 //*Get Infinite Posts
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries = [Query.orderDesc("$updatedAt"), Query.limit(10)];
+  const queries = [Query.orderDesc("$updatedAt"), Query.limit(9)];
 
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
@@ -420,7 +420,7 @@ export async function updateUser(user: IUpdateUser) {
   const hasFileToUpdate = user.file.length > 0;
   try {
     let image = {
-      imageUrl: user.ImageUrl,
+      imageUrl: user.imageUrl,
       imageId: user.imageId,
     };
 
