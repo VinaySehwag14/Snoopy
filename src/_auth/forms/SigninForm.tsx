@@ -34,7 +34,7 @@ const SigninForm = () => {
     },
   });
 
-  // Check if user is already logged in
+  //* Check if user is already logged in
   useEffect(() => {
     const checkUserStatus = async () => {
       const isLoggedIn = await checkAuthUser();
