@@ -19,7 +19,7 @@ export async function createUserAccount(user: INewUser) {
       name: newAccount.name,
       email: newAccount.email,
       username: user.username,
-      ImageUrl: avatarUrl,
+      imageUrl: avatarUrl,
     });
     return newUser;
   } catch (error) {
@@ -32,7 +32,7 @@ export async function saveUserToDB(user: {
   accountId: string;
   email: string;
   name: string;
-  ImageUrl: URL;
+  imageUrl: URL;
   username?: string;
 }) {
   try {
@@ -112,7 +112,7 @@ export async function createPost(post: INewPost) {
       {
         creator: post.userId,
         caption: post.caption,
-        ImageUrl: fileUrl,
+        imageUrl: fileUrl,
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
@@ -198,7 +198,7 @@ export async function updatePost(post: IUpdatePost) {
 
   try {
     let image = {
-      ImageUrl: post.ImageUrl,
+      imageUrl: post.imageUrl,
       imageId: post.imageId,
     };
 
@@ -214,7 +214,7 @@ export async function updatePost(post: IUpdatePost) {
         throw Error;
       }
 
-      image = { ...image, ImageUrl: fileUrl, imageId: uploadedFile.$id };
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
     //* Convert tags into array
@@ -227,7 +227,7 @@ export async function updatePost(post: IUpdatePost) {
       post.postId,
       {
         caption: post.caption,
-        ImageUrl: image.ImageUrl,
+        imageUrl: image.imageUrl,
         imageId: image.imageId,
         location: post.location,
         tags: tags,
@@ -420,7 +420,7 @@ export async function updateUser(user: IUpdateUser) {
   const hasFileToUpdate = user.file.length > 0;
   try {
     let image = {
-      ImageUrl: user.ImageUrl,
+      imageUrl: user.imageUrl,
       imageId: user.imageId,
     };
 
@@ -436,7 +436,7 @@ export async function updateUser(user: IUpdateUser) {
         throw Error;
       }
 
-      image = { ...image, ImageUrl: fileUrl, imageId: uploadedFile.$id };
+      image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
     //*  Update user
@@ -447,7 +447,7 @@ export async function updateUser(user: IUpdateUser) {
       {
         name: user.name,
         bio: user.bio,
-        ImageUrl: image.ImageUrl,
+        imageUrl: image.imageUrl,
         imageId: image.imageId,
       }
     );

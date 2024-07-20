@@ -10,7 +10,7 @@ const Saved = () => {
     .map((savePost: Models.Document) => ({
       ...savePost.post,
       creator: {
-        ImageUrl: currentUser.ImageUrl,
+        imageUrl: currentUser.imageUrl,
       },
     }))
     .reverse();

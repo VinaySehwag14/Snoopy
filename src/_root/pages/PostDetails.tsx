@@ -45,7 +45,7 @@ const PostDetails = () => {
       ) : (
         <div className="post_details-card">
           <img
-            src={post?.ImageUrl}
+            src={post?.imageUrl}
             alt="creator"
             className="post_details-img"
           />
@@ -58,7 +58,7 @@ const PostDetails = () => {
               >
                 <img
                   src={
-                    post?.creator.ImageUrl ||
+                    post?.creator.imageUrl ||
                     "/assets/icons/profile-placeholder.svg"
                   }
                   alt="creator"
