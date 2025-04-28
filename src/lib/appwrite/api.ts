@@ -1,5 +1,5 @@
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { ID, ImageGravity, Query } from "appwrite";
+import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
 export async function createUserAccount(user: INewUser) {
@@ -166,22 +166,25 @@ export async function uploadFile(file: File) {
 //*  GET FILE URL
 export function getFilePreview(fileId: string) {
   try {
-    const fileUrl = storage.getFilePreview(
-      appwriteConfig.storageId,
-      fileId,
-      2000,
-      2000,
-      ImageGravity.Top,
-      100
-    );
+    if (!fileId) {
+      console.error("File ID is missing");
+      return null;
+    }
 
-    if (!fileUrl) throw Error;
+    const fileUrl = storage.getFileView(appwriteConfig.storageId, fileId);
+
+    if (!fileUrl) {
+      console.error("Failed to generate file URL");
+      return null;
+    }
 
     return fileUrl;
   } catch (error) {
-    console.log(error);
+    console.error("Error getting file:", error);
+    return null;
   }
 }
+
 //*  DELETE FILE
 export async function deleteFile(fileId: string) {
   try {
